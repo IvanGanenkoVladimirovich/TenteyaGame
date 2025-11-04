@@ -1,0 +1,238 @@
+/* === Общие стили === */
+body {
+  margin: 0;
+  padding: 0;
+  background: url('arena-bg.jpg') no-repeat center center fixed;
+  background-size: cover;
+  font-family: Arial, sans-serif;
+  color: white;
+  overflow-y: scroll; /* чтобы фон не дёргался при появлении скролла */
+}
+
+#fightBtn {
+  position: absolute;
+  top: 20px;   /* отступ от верхней границы */
+  left: 50%;   /* по центру по горизонтали */
+  transform: translateX(-50%);
+  z-index: 10; /* чтобы кнопка была выше фона и картинок */
+}
+
+/* === Лог боя === */
+#log {
+  position: absolute;
+  bottom: 3%;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 40%;
+  height: 190px;
+  overflow-y: auto;
+  border: 1px solid white;
+  padding: 5px;
+  background: rgba(0,0,0,0.5);
+  font-size: 14px;
+  white-space: pre-line;
+}
+
+/* === Таблицы игроков === */
+.player-table {
+  position: absolute;
+  top: 5%;
+  width: 200px;
+  border: 1px solid white;
+  border-collapse: collapse;
+  background: rgba(0,0,0,0.6);
+}
+
+.player-table th,
+.player-table td {
+  border: 1px solid white;
+  padding: 5px;
+  text-align: left;
+}
+
+/* Левая таблица */
+#player1-table {
+  left: 5%;
+}
+
+/* Правая таблица */
+#player2-table {
+  right: 5%;
+}
+
+/* === Картинки персонажей === */
+.character {
+  position: absolute;
+  top: 55%;
+  max-width: 250px;
+  max-height: 300px;
+  height: auto;
+  width: auto;
+  object-fit: contain;
+}
+
+#player1-img {
+  left: 15%;
+}
+
+#player2-img {
+  right: 15%;
+}
+.bar {
+  position: relative;
+  width: 260px;        /* длина полоски */
+  height: 20px;        /* толщина */
+  border: 1px solid white;
+  border-radius: 5px;
+  background: rgba(0, 0, 0, 0.4); /* фон */
+  margin: 4px auto;    /* отцентрировать под цифрами */
+  overflow: hidden;
+}
+
+.fill {
+  height: 100%;
+  width: 100%; /* изначально полная */
+  transition: width 0.4s ease; /* плавное уменьшение */
+}
+
+.hp-bar .fill {
+  background: linear-gradient(to right, #ff0048, #ff80a0); /* розово-красный */
+  opacity: 0.7;
+}
+
+.mp-bar .fill {
+  background: linear-gradient(to right,  #00d4d4, #0044cc); /* бирюзово-зелёный */
+  opacity: 0.7;
+}
+.hero-info {
+  position: absolute;
+  width: 260px; /* совпадает с шириной картинки */
+  text-align: center;
+  font-weight: bold;
+  font-size: 28px;       
+  text-shadow: 1px 1px 2px black;
+  background: rgba(0,0,0,0.6);
+  z-index: 10; /* выше картинки */
+}
+#orc-info {
+  color: rgba(255,0,168,0.8);
+  left: 400px; /* совпадает с картинкой Орка */
+  top: 465px;  /* чуть выше верхушки картинки */
+}
+
+#elf-info {
+  color: rgba(255,0,168,0.8);
+  right: 400px; /* совпадает с картинкой Эльфа */
+  top: 465px;
+}
+/* === Всплывающие урон/хил (подготовка под будущее) === */
+.damage-float {
+  position: absolute;
+  font-size: 24px;
+  font-weight: bold;
+  color: red;
+  text-shadow: 1px 1px 2px black;
+  animation: floatUp 1.5s ease-out forwards;
+  pointer-events: none;
+}
+
+.heal-float {
+  position: absolute;
+  font-size: 24px;
+  font-weight: bold;
+  color: limegreen;
+  text-shadow: 1px 1px 2px black;
+  animation: floatUp 1.5s ease-out forwards;
+  pointer-events: none;
+}
+
+.lightning-token {
+  animation: healFloat 1.8s ease-out forwards;
+}
+@keyframes floatUp {
+  0% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+  100% {
+    opacity: 0;
+    transform: translateY(-80px);
+  }
+}
+.stat-row {
+  display: flex;
+  align-items: center; /* по вертикали выравнивает input и радиокнопку */
+  gap: 10px;           /* расстояние между input и радиокнопкой */
+  margin-bottom: 5px;  /* расстояние между строками */
+}
+
+.passive-bonus {
+  color: #ccc;         /* серо-белый цвет */
+  margin-left: 4px;    /* небольшой отступ после радио */
+  user-select: none;   /* текст нельзя выделить */
+}
+.container {
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
+  padding: 20px; /* можно подогнать */
+}
+.char {
+  background: rgba(0,0,0,0.6);
+  padding: 10px;
+  border: 1px solid white;
+  width: 260px;
+}
+#elf-passives label,
+#ork-passives label {
+  display: inline-block;
+  margin: 3px;
+  padding: 5px 10px;
+  border: 1px solid white;
+  border-radius: 3px;
+  background: #222;
+  color: yellow;
+  cursor: pointer;
+}
+
+#elf-passives input[type="radio"],
+#ork-passives input[type="radio"] {
+  display: none; /* прячем сам радиобаттон */
+}
+
+/* подсветка выбранного */
+#elf-passives input[type="radio"]:checked + label,
+#ork-passives input[type="radio"]:checked + label {
+  background: rgba(0, 255, 128, 0.5);
+  color: white;
+}
+#elf-passives {
+  position: absolute;
+  top: 80px;   /* смещаем вниз */
+  right: 10px;  /* смещаем от правого края */
+  color: cyan;
+}
+
+#ork-passives {
+  position: absolute;
+  top: 80px;
+  left: 10px;
+  color: lime;
+}
+.passive-btn {
+  margin: 0 3px;
+  padding: 3px 6px;
+  cursor: pointer;
+  font-weight: bold;
+  background: #222;
+  color: yellow;
+  border: 1px solid white;
+  border-radius: 3px;
+}
+.passive-btn:hover {
+  background: #444;
+}
+.passive-btn.active {
+  background-color: red;
+  color: white;
+}
